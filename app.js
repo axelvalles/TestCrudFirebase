@@ -28,14 +28,13 @@ const addCollection = () =>{
     document.getElementById('firstName').value =''
     document.getElementById('lastName').value =''
     document.getElementById('age').value =''
-    getCollection()
 }
 
 //leer documentos
 const getCollection = () => {
     let table = document.getElementById('table')
-    table.innerHTML = ``
-    db.collection("users").get().then((querySnapshot) => {
+    db.collection("users").onSnapshot((querySnapshot) => {
+        table.innerHTML = ``
         querySnapshot.forEach((doc) => {
             table.innerHTML += 
             `
@@ -68,7 +67,6 @@ const deleteCollection = (id) =>{
         var notification = alertify.notify("Error al eliminar documento :" + error, 'error', 5);
     });
 
-    getCollection()
 }
 
 //editar documentos
@@ -103,12 +101,10 @@ const editCollection = (id,inputNombre,inputApellido,inputEdad)=>{
         .then(function() {
             changeButton()
             var notification = alertify.notify("Documento editado exitosamente: ", 'success', 5);
-            getCollection()
         })
         .catch(function(error) {
             changeButton()
             var notification = alertify.notify("Error al editar documento :" + error, 'error', 5);
-            getCollection()
         });
         
     }
